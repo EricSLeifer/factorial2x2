@@ -1,25 +1,27 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 # factorial2x2
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
-The goals of the `factorial2x2` package are twofold: First, to provide
-power calculations for a two-by-two factorial design in which the
-effects of the two factors may be sub-additive. Power is provided for
-the overall effect test for as well as the multiple testing procedures
-described in Leifer, Troendle, Kolecki, and Follmann (2019). Second, to
-analyze two-by-two factorial trial data which may include baseline
-adjustment covariates. Further details are described in the factorial2x2
-vignette.
+The goals of the `factorial2x2` package are twofold:  First, to provide power calculations for a two-by-two factorial design in which the effects of the two factors may be sub-additive.  Power is provided for the overall effect test for as well as the multiple testing procedures described in Leifer, Troendle, Kolecki, and Follmann (2019).  Second, to analyze two-by-two factorial trial data which may include baseline adjustment covariates.  Further details are described in the factorial2x2 vignette.
 
 ## Installation
 
-You can install the released version of factorial2x2 from
-[CRAN](https://CRAN.R-project.org) with:
+You can install the released version of factorial2x2 from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("factorial2x2")
@@ -27,10 +29,9 @@ install.packages("factorial2x2")
 
 ## Example of a power calculation
 
-We reproduce the power calculations for scenario 5 from Table 2 in
-Leifer, Troendle, et al. using the `fac2x2design` function.
+We  reproduce the power calculations for scenario 5 from Table 2 in Leifer, Troendle, et al. using the `fac2x2design` function.  
 
-``` r
+```{r, eval =   F}
 
   n <- 4600          # total sample size
   rateC <- 0.0445    # one year event rate in the control group
@@ -65,14 +66,8 @@ Leifer, Troendle, et al. using the `fac2x2design` function.
 ```
 
 ## References
+Leifer, E.S., Troendle, J.F., Kolecki, A., Follmann, D. Joint testing of overall and simple effect for the two-by-two factorial design. 2019. Submitted.
 
-Leifer, E.S., Troendle, J.F., Kolecki, A., Follmann, D. Joint testing of
-overall and simple effect for the two-by-two factorial design. 2019.
-Submitted.
+Lin, D-Y., Gong, J., Gallo, P., et al. Simultaneous inference on treatment effects in survival studies with factorial designs. *Biometrics*. 2016; 72: 1078-1085.
 
-Lin, D-Y., Gong, J., Gallo, P., et al. Simultaneous inference on
-treatment effects in survival studies with factorial designs.
-*Biometrics*. 2016; 72: 1078-1085.
-
-Slud, E.V. Analysis of factorial survival experiments. *Biometrics*.
-1994; 50: 25-38.
+Slud, E.V. Analysis of factorial survival experiments. *Biometrics*. 1994; 50: 25-38.

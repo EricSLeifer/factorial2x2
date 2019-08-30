@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^factorial2x2
+^cran-comments.md
+^\dontrun{fac2x2analyze.R}
+^README\.Rmd$
+^CRAN-RELEASE$
