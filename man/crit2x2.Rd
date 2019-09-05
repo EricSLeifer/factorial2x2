@@ -4,8 +4,8 @@
 \alias{crit2x2}
 \title{Critical values for the 2/3-1/3, 1/3-1/3-1/3, and 1/2-1/2 procedures}
 \usage{
-crit2x2(corAa, corAab, coraab, dig = 2, alpha, niter = 5,
-  rseed = 537265, abseps = 1e-05, tol = 1e-04)
+crit2x2(corAa, corAab, coraab, dig = 2, alpha = 0.05, niter = 5,
+  abseps = 1e-05, tol = 1e-04)
 }
 \arguments{
 \item{corAa}{correlation between the overall A and simple A  log hazard ratio estimates}
@@ -20,9 +20,6 @@ crit2x2(corAa, corAab, coraab, dig = 2, alpha, niter = 5,
 
 \item{niter}{number of times we compute the critical values to average out
 the randomness from the \code{pmvnorm} function call}
-
-\item{rseed}{random seed used in conjunction with \code{niter}.  Care needs to be exercised if crit2x2 is used for
-simulations}
 
 \item{abseps}{\code{abseps} setting in the \code{pmvnorm} function call}
 
@@ -44,6 +41,8 @@ for null hypotheses rejection and corresponding nominal two-sided significance
 levels for the 2/3-1/3, 1/3-1/3-1/3, and 1/2-1/2 procedures.
 }
 \details{
+\code{pmvnorm} uses a random seed in its algorithm.
+To smooth out the randomness,  \code{pmvnorm} is called \code{niter} times.
 The \code{roundDown} function is used in conjunction with the \code{dig} argument
 to insure that any rounding of the (negative) critical values will be done conservatively to control
 the familywise type I error at the desired level.
@@ -81,38 +80,31 @@ crit2x2(corAa, corAab, coraab, dig = 2, alpha = 0.05, niter = 5)
 # [1] 0.02641877
 
 # Example 2:  Compute the nominal critical values and significance levels for rejection
-# using the estimated correlations for simdata.
-corAa  <- 0.7274961
-corAab <- 0.7164075
-coraab <- 0.4572905
+# using the estimated correlations for simdat.
+corAa  <- 0.6123399
+corAab <- 0.5675396
+coraab <- 0.4642737
 
 crit2x2(corAa, corAab, coraab, dig = 2, alpha = 0.05, niter = 5)
-# crit23A
+# $crit23A
 # [1] -2.13
 
-# crit23A
-# [1] -2.13
-
-# sig23A
+# $sig23A
 # [1] 0.03317161
 
-# crit23ab
-# [1] -2.24
+# $crit23ab
+# [1] -2.3
 
-# sig23ab
-# [1] 0.02509092
+# $sig23ab
+# [1] 0.02144822
+#
+# $crit13
+# [1] -2.34
+# $sig13
+# [1] 0.01928374
 
-# crit13
-# [1] -2.31
-
-# sig13
-# [1] 0.02088815
-
-# crit12
+# $crit12
 # [1] -2.22
-
-# sig12
-# [1] 0.02641877
 }
 \references{
 Leifer, E.S., Troendle, J.F., Kolecki, A., Follmann, D.

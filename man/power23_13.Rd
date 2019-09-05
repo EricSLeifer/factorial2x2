@@ -5,8 +5,8 @@
 \title{Power of the 2/3-1/3 procedure}
 \usage{
 power23_13(n, hrA, hrB, hrAB, avgprob, probAB_C, crit23A, crit23ab, dig,
-  cormat = matrix(c(1, sqrt(0.5), sqrt(0.5), 1), byrow = T, nrow = 2),
-  niter = 5, rseed = 47477, abseps = 1e-05)
+  cormat = matrix(c(1, sqrt(0.5), sqrt(0.5), 1), byrow = TRUE, nrow = 2),
+  niter = 5, abseps = 0.001)
 }
 \arguments{
 \item{n}{total subjects with n/4 subjects in each of the C, A, B, and AB groups}
@@ -32,8 +32,6 @@ by \code{\link{strLgrkPower}}}
 \item{cormat}{asymptotic correlation matrix for the overall A and simple AB logrank statistics}
 
 \item{niter}{number of times we call \code{pmvnorm} to average out its randomness}
-
-\item{rseed}{random seed used in conjunction with \code{niter}}
 
 \item{abseps}{\code{abseps} setting in the \code{pmvnorm} call}
 }
@@ -68,13 +66,11 @@ The \code{pmvnorm} function
 from the \code{mvtnorm} package is used to calculate
 the power that both (intersection) the overall A and simple AB effects are detected.
 Since this involves bivariate normal integration over an unbounded region in R^2, \code{pmvnorm}
-uses a random seed for this computation.  Hence, the \code{rseed} argument.  To smooth out the
-randomness associated with \code{rseed}, \code{pmvnorm} is called \code{niter} times and
+uses a random seed for this computation.  To smooth out the
+randomness, \code{pmvnorm} is called \code{niter} times and
 the average value over the \code{niter} calls is taken to be that power.
 }
 \examples{
- \dontrun{
- # Not run by CRAN.  Requires less than 10 seconds on a personal computer.
  # Corresponds to scenario 5 in Table 2 from Leifer, Troendle, et al. (2019).
  rateC <- 0.0445  # one-year C group event rate
  hrA <- 0.80
@@ -97,7 +93,7 @@ the average value over the \code{niter} calls is taken to be that power.
  power23_13(n, hrA, hrB, hrAB, avgprob, probAB_C,
             crit23A, crit23ab, dig, cormat =
             matrix(c(1, sqrt(0.5), sqrt(0.5), 1), byrow = TRUE,
-            nrow = 2), niter = 5, rseed = 047477, abseps = 1e-05)
+            nrow = 2), niter = 1, abseps = 1e-03)
 # $poweroverA
 # [1] 0.6582819
 
@@ -109,7 +105,6 @@ the average value over the \code{niter} calls is taken to be that power.
 
 # $power23.13
 # [1] 0.9290062
-}
 }
 \references{
 Leifer, E.S., Troendle, J.F., Kolecki, A., Follmann, D.

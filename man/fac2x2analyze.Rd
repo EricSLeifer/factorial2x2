@@ -96,103 +96,109 @@ nominal significance levels, and correlations for the overall A,
 simple A, and simple AB test statistics.
 }
 \examples{
-\dontrun{
- # Not run by CRAN.  Requires less than 15 seconds on a personal computer.
- # First load the simulated data variables. The "simdata" file is
- # a 4600-by-9 matrix which is loaded with the factorial2x2 package.
- time <- simdata[, "time"]
- event <- simdata[, "event"]
- indA <- simdata[, "indA"]
- indB <- simdata[, "indB"]
- covmat <- simdata[, 6:10]
+ # First load the simulated data variables. The "simdat" file is
+ # a 100-by-9 matrix which is loaded with the factorial2x2 package.
+ time <- simdat[, "time"]
+ event <- simdat[, "event"]
+ indA <- simdat[, "indA"]
+ indB <- simdat[, "indB"]
+ covmat <- simdat[, 6:10]
  fac2x2analyze(time, event, indA, indB, covmat, alpha = 0.05, niter = 5)
-# $loghrA
-# [1] -0.1170805
+#  $loghrA
+# [1] 0.05613844
 
 # $seA
-# [1] 0.06258749
+# [1] 0.4531521
 
 # $ZstatA
-# [1] -1.87067
-
-# $hrA
-# [1] 0.8895135
+# [1] 0.1238843
 
 # $pvalA
-# [1] 0.06139083
+# [1] 0.9014069
+
+# $hrA
+# [1] 1.057744
 
 # $ciA
-# [1] 0.786823 1.005607
+# [1] 0.4351608 2.5710556
 
 # $loghra
-# [1] -0.2112048
+# [1] 0.1987329
 
 # $sea
-# [1] 0.08655462
+# [1] 0.6805458
 
 # $Zstata
-# [1] -2.440133
+# [1] 0.2920198
 
 # $pvala
-# [1] 0.01468184
+# [1] 0.7702714
 
 # $hra
-# [1] 0.8096082
+# [1] 1.219856
 
 # $cia
-# [1] 0.6832791 0.9592939
+# [1] 0.3213781 4.6302116
 
 # $loghrab
-# [1] -0.2766681
+# [1] 0.2864932
 
 # $seab
-# [1] 0.08738966
+# [1] 0.6762458
 
 # $Zstatab
-# [1] -3.165914
+# [1] 0.4236525
 
 # $pvalab
-# [1] 0.001545967
+# [1] 0.6718193
 
 # $hrab
-# [1] 0.7583061
+# [1] 1.331749
 
 # $ciab
-# [1] 0.6389355 0.8999785
+# [1] 0.3538265 5.0125010
 
-# $pvalab
-# [1] 0.001545967
+# $crit23A
+# [1] -2.129
 
 # $sig23A
-# [1] 0.03333294
+# [1] 0.03325426
+
+# $crit23ab
+# [1] -2.299
 
 # $sig23ab
-# [1] 0.02560439
+# [1] 0.02150494
 
 # $result23
-# [1] "accept overall A" "reject simple AB"
+# [1] "accept overall A" "accept simple AB"
+
+# $crit13
+# [1] -2.338
 
 # $sig13
-# [1] 0.02091308
+# [1] 0.01938725
 
 # $result13
-# [1] "accept overall A" "reject simple A"  "reject simple AB"
+# [1] "accept overall A" "accept simple A"  "accept simple AB"
+
+# $crit12
+# [1] -2.216
 
 # $sig12
-# [1] 0.02665044
+# [1] 0.0266915
 
 # $result12
-# [1] "reject simple A"  "reject simple AB"
+# [1] "accept simple A"  "accept simple AB"
 
 # $corAa
-# [1] 0.7274961
+# [1] 0.6123399
 
 # $corAab
-# [1] 0.7164075
+# [1] 0.5675396
 
 # $coraab
-# [1] 0.4572905
-}
+# [1] 0.4642737
 }
 \references{
 Leifer, E.S., Troendle, J.F., Kolecki, A., Follmann, D.
