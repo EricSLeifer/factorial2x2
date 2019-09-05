@@ -11,7 +11,6 @@
 #' @param  crit12  logrank statistic critical value for both the simple A and simple AB effects
 #' @param  cormat  asymptotic correlation matrix for the simple A and simple AB logrank statistics
 #' @param  niter  number of times we call \code{pmvnorm} to average out its randomness
-#' @param  rseed  random seed used in conjunction with \code{niter}
 #' @param  abseps  \code{abseps} setting in the \code{pmvnorm} call
 #' @return \item{poweroverA }{power to detect the overall A effect}
 #' @return \item{powerA }{power to detect the simple A effect}
@@ -28,10 +27,9 @@
 #' The \code{pmvnorm} function
 #' from the \code{mvtnorm} package is used to calculate
 #' the power that both (intersection) the simple A and simple B effects are detected.
-#' Since this involves bivariate normal integration over an unbounded region in R^2, \code{pmvnorm}
-#' uses a random seed for this computation.  Hence, the \code{rseed} argument.  To smooth out the
-#' randomness associated with \code{rseed}, \code{pmvnorm} is called \code{niter} times and
-#' the average value over the \code{niter} calls is taken to be that power.
+#' \code{pmvnorm} uses a random seed in its algorithm.
+#' To smooth out the randomness,  \code{pmvnorm} is called
+#' \code{niter} times and the average value over the \code{niter} calls is taken to be that power.
 #' @references Leifer, E.S., Troendle, J.F., Kolecki, A., Follmann, D.
 #' Joint testing of overall and simple effect for the two-by-two factorial design. (2019). Submitted.
 #' @references Slud, E.V. Analysis of factorial survival experiments. Biometrics. 1994; 50: 25-38.
@@ -40,8 +38,6 @@
 #' @seealso \code{crit2x2}, \code{lgrkPower}, \code{pmvnorm}
 #'
 #' @examples
-#' \dontrun{
-#' # Not run by CRAN.  Requires less than 10 seconds on a personal computer.
 #' # Corresponds to scenario 5 in Table 2 from Leifer, Troendle, et al. (2019).
 #' rateC <- 0.0445  # one-year C group event rate
 #' hrA <- 0.80
@@ -60,8 +56,8 @@
 #' crit12 <- crit2x2(corAa, corAab, coraab, dig, alpha)$crit12
 #' n <- 4600
 #' power12_12(n, hrA, hrAB, probA_C, probAB_C,
-#'   crit12, cormat = matrix(c(1,0.5,0.5,1), byrow = TRUE, nrow =2),
-#'   niter = 5, rseed = 047477, abseps = 1e-05)
+#'   crit12, cormat = matrix(c(1,0.5,0.5,1), byrow = TRUE, nrow = 2),
+#'   niter = 1, abseps = 1e-03)
 #'
 #' # $powerA
 #' # [1] 0.6203837
@@ -74,12 +70,12 @@
 #'
 #' # $power12.12
 #' # [1] 0.9411688
-#' }
+#'
 #'
 power12_12 <- function(n, hrA, hrAB, probA_C, probAB_C,
                          crit12,
-                         cormat = matrix(c(1,0.5,0.5,1), byrow =T,
-                         nrow =2), niter = 5, rseed = 047477, abseps = 1e-05)
+                         cormat = matrix(c(1,0.5,0.5,1), byrow =TRUE,
+                         nrow =2), niter = 5, abseps = 1e-03)
 {
   alphaA <- 2 * pnorm(crit12)
   alphaAB <- 2 * pnorm(crit12)
@@ -88,7 +84,10 @@ power12_12 <- function(n, hrA, hrAB, probA_C, probAB_C,
   # Use pmvnorm to compute the power to detect
   # both (intersection) the simple A and simple AB effects.
   # Do this niter times to average out the randomness in pmvnorm.
-  set.seed(rseed)
+  # Previous versions of crit2x2 set a random seed here
+  # to be used in conjunction with the pmvnorm call.  CRAN
+  # suggested that this be omitted.
+  # set.seed(rseed)
   powervec <- rep(0, niter)
   for(i in 1:niter){
   powervec[i] <- pmvnorm(lower=-Inf, upper= rep(crit12, 2), mean=c(muA, muAB),

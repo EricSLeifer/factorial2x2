@@ -39,71 +39,70 @@
 #' @import stats
 #' @export cor2x2
 #' @examples
-#' \dontrun{
-#' # Not run by CRAN.  Requires less than 10 seconds on a personal computer.
-#' # First load the simulated data variables. The "simdata" file is
-#' # a 4600-by-9 matrix which is loaded with the factorial2x2 package.
-#' time <- simdata[, "time"]
-#' event <- simdata[, "event"]
-#' indA <- simdata[, "indA"]
-#' indB <- simdata[, "indB"]
-#' covmat <- simdata[, 6:10]
+#' # First load the simulated data variables. The "simdat" file is
+#' # a 100-by-9 matrix which is loaded with the factorial2x2 package.
+#' time <- simdat[, "time"]
+#' event <- simdat[, "event"]
+#' indA <- simdat[, "indA"]
+#' indB <- simdat[, "indB"]
+#' covmat <- simdat[, 6:10]
 #'
 #' cor2x2(time, event, indA, indB, covmat)
 #' # $loghrA
-#' # [1] -0.1170805
+#' # [1] 0.05613844
 #'
 #' # $seA
-#' # [1] 0.06258749
+#' # [1] 0.4531521
 #'
-#' # hrA
-#' # [1] 0.8895135
+#' # $hrA
+#' # [1] 1.057744
 #'
-#' # ciA
-#' # [1] 0.786823 1.005607
+#' # $ciA
+#' # [1] 0.4351608 2.5710556
 #'
-#' # pvalA
-#' # [1] 0.06139083
+#' # $pvalA
+#' # [1] 0.9014069
 #'
 #' # $loghra
-#' # [1] -0.2112048
+#' # [1] 0.1987329
 #'
 #' # $sea
-#' # [1] 0.08655462
+#' # [1] 0.6805458
 #'
-#' # hra
-#' # [1] 0.8096082
+#' # $hra
+#' # [1] 1.219856
 #'
-#' # cia
-#' # [1] 0.6832791 0.9592939
+#' # $cia
+#' # [1] 0.3213781 4.6302116
 #'
-#' # pvala
-#' # [1] 0.01468184
-#'
-#' # hrab
-#' # [1] 0.7583061
+#' # $pvala
+#' # [1] 0.7702714
 #'
 #' # $loghrab
-#' # [1] -0.2766681
+#' # [1] 0.2864932
 #'
 #' # $seab
-#' # [1] 0.08738966
+#' # [1] 0.6762458
 #'
-#' # ciab
-#' # [1] 0.6389355 0.8999785
+#' # $hrab
+#' # [1] 1.331749
 #'
-#' # pvalab
-#' # [1] 0.001545967
+#' # $ciab
+#' # [1] 0.3538265 5.0125010
 #'
-#' # corAa
-#' # [1] 0.7274961
+#' # $pvalab
+#' # [1] 0.6718193
 #'
-#' # corAab
-#' # [1] 0.7164075
+#' # $corAa
+#' # [1] 0.6123399
 #'
-#' # coraab
-#' # [1] 0.4572905
-#' }
+#' # $corAab
+#' # [1] 0.5675396
+#'
+#' # $coraab
+#' # [1] 0.4642737
+
+
 
 cor2x2 <- function(time, event, indA, indB, covmat){
 

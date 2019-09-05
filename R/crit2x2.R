@@ -12,8 +12,6 @@
 #' the randomness from the \code{pmvnorm} function call
 #' @param alpha  two-sided familywise error level to control
 #' @param dig number of decimal places to which we \code{\link{roundDown}} the critical value
-#' @param rseed  random seed used in conjunction with \code{niter}.  Care needs to be exercised if crit2x2 is used for
-#' simulations
 #' @param abseps \code{abseps} setting in the \code{pmvnorm} function call
 #' @param tol  \code{tol} setting in the uniroot function call
 #'
@@ -27,7 +25,9 @@
 #' \item{crit12 }{1/2-1/2 procedure's critical value for the simple A and AB statistics}
 #' \item{sig12 }{two-sided nominal significance level corresponding to \code{crit12}}
 #'
-#' @details The \code{roundDown} function is used in conjunction with the \code{dig} argument
+#' @details \code{pmvnorm} uses a random seed in its algorithm.
+#' To smooth out the randomness,  \code{pmvnorm} is called \code{niter} times.
+#' The \code{roundDown} function is used in conjunction with the \code{dig} argument
 #' to insure that any rounding of the (negative) critical values will be done conservatively to control
 #' the familywise type I error at the desired level.
 #' @references Leifer, E.S., Troendle, J.F., Kolecki, A., Follmann, D.
@@ -69,41 +69,36 @@
 #' # [1] 0.02641877
 #'
 #' # Example 2:  Compute the nominal critical values and significance levels for rejection
-#' # using the estimated correlations for simdata.
-#' corAa  <- 0.7274961
-#' corAab <- 0.7164075
-#' coraab <- 0.4572905
+#' # using the estimated correlations for simdat.
+#' corAa  <- 0.6123399
+#' corAab <- 0.5675396
+#' coraab <- 0.4642737
 #'
 #' crit2x2(corAa, corAab, coraab, dig = 2, alpha = 0.05, niter = 5)
-#' # crit23A
+#' # $crit23A
 #' # [1] -2.13
 #'
-#' # crit23A
-#' # [1] -2.13
-#'
-#' # sig23A
+#' # $sig23A
 #' # [1] 0.03317161
 #'
-#' # crit23ab
-#' # [1] -2.24
+#' # $crit23ab
+#' # [1] -2.3
 #'
-#' # sig23ab
-#' # [1] 0.02509092
+#' # $sig23ab
+#' # [1] 0.02144822
+#' #
+#' # $crit13
+#' # [1] -2.34
+
+#' # $sig13
+#' # [1] 0.01928374
 #'
-#' # crit13
-#' # [1] -2.31
-#'
-#' # sig13
-#' # [1] 0.02088815
-#'
-#' # crit12
+#' # $crit12
 #' # [1] -2.22
-#'
-#' # sig12
-#' # [1] 0.02641877
+
 
 crit2x2 <- function(corAa, corAab, coraab, dig = 2,
-	alpha,  niter = 5, rseed = 537265, abseps = 1e-05, tol = 1e-04){
+	alpha = 0.05,  niter = 5,  abseps = 1e-05, tol = 1e-04){
 # This functions requires the "mvtnorm" package and
   # the output from the cor2x2 function.
   # NOTE:  increasing niter will slow down the function
@@ -126,8 +121,10 @@ crit2x2 <- function(corAa, corAab, coraab, dig = 2,
 #		LinCov function based on the Lin et al. (2016, Biometrics)
 #		methodology
 
-# set the random seed only once
-	set.seed(rseed)
+# Previous versions of crit2x2 set a random seed here
+# to be used in conjunction with the pmvnorm call.  CRAN
+# suggested that this be omitted.
+# set.seed(rseed)
 
 # Initialize the results vectors.
 	sig23A <- rep(0, niter)
@@ -148,7 +145,7 @@ crit2x2 <- function(corAa, corAab, coraab, dig = 2,
 	crit23A[i] <- qnorm(alpha/3)
 
 # Obtain the two-sided nominal significance level for the simple AB test.
-	cormat23 <- matrix(c(1, corAab, corAab, 1), byrow = T, nrow = 2)
+	cormat23 <- matrix(c(1, corAab, corAab, 1), byrow = TRUE, nrow = 2)
 	auxfcn23 <- function(z){
   				(1 - pmvnorm(lower=-Inf, upper=
 					-c(qnorm(alpha/3),
@@ -167,7 +164,7 @@ crit2x2 <- function(corAa, corAab, coraab, dig = 2,
 
 	cormat13 <- matrix(c(1, corAa, corAab,
                     	corAa, 1, coraab,
-                    	corAab, coraab, 1), byrow=T, nrow = 3)
+                    	corAab, coraab, 1), byrow=TRUE, nrow = 3)
 	auxfcn13 <- function(z, tol = tol){
  		(1 - pmvnorm(lower = c(qnorm(z), qnorm(z), qnorm(z)),
  		   upper= -c(qnorm(z), qnorm(z), qnorm(z)), mean=c(0,0,0),
@@ -183,7 +180,7 @@ crit2x2 <- function(corAa, corAab, coraab, dig = 2,
 
 # Obtain the two-sided nominal significance level for each test of the
 #	1/2-1/2 procedure.
-	cormat12 <- matrix(c(1, coraab, coraab, 1), byrow = T, nrow = 2)
+	cormat12 <- matrix(c(1, coraab, coraab, 1), byrow = TRUE, nrow = 2)
 	auxfcn12 <- function(z, tol = tol){
   				(1 - pmvnorm(lower=-Inf, upper=-c(qnorm(z),
 					qnorm(z)), mean=c(0,0),

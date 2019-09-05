@@ -17,7 +17,6 @@
 #' @param  cormat23  asymptotic correlation matrix for the simple A and  simple AB logrank statistics
 #' @param  cormat123  asymptotic correlation matrix for the overall A, simple A, and  simple AB logrank statistics
 #' @param  niter  number of times we call \code{pmvnorm} to average out its randomness
-#' @param  rseed  random seed used in conjunction with \code{niter}
 #' @param  abseps  \code{abseps} setting in the \code{pmvnorm} call
 #' @return \item{poweroverA }{power to detect the overall A effect}
 #' @return \item{powerA }{power to detect the simple A effect}
@@ -39,8 +38,8 @@
 #' the powers for rejecting the pairwise and three-way intersections of
 #' Since these powers involve bivariate, respectively, trivariate,
 #'  normal integration over an unbounded region in R^2, respectively, R^3, \code{pmvnorm}
-#' uses a random seed for these computations.  Hence, the \code{rseed} argument.  To smooth out the
-#' randomness associated with \code{rseed}, \code{pmvnorm} is called \code{niter} times and
+#' uses a random seed for these computations.  To smooth out the
+#' randomness, \code{pmvnorm} is called \code{niter} times and
 #' the average value over the \code{niter} calls is taken to be those powers.
 #' @references Leifer, E.S., Troendle, J.F., Kolecki, A., Follmann, D.
 #' Joint testing of overall and simple effect for the two-by-two factorial design. (2019). Submitted.
@@ -48,8 +47,6 @@
 #' @export power13_13_13
 #' @seealso \code{\link{crit2x2}}, \code{lgrkPower}, \code{strLgrkPower}, \code{pmvnorm}
 #' @examples
-#' \dontrun{
-#' # Not run by CRAN.  Requires less than 10 seconds on a personal computer.
 #' # Corresponds to scenario 5 in Table 2 from Leifer, Troendle, et al. (2019).
 #' rateC <- 0.0445
 #' hrA <- 0.80
@@ -72,7 +69,7 @@
 #'   crit13, dig, cormat12 = matrix(c(1, sqrt(0.5), sqrt(0.5), 1), byrow = TRUE,
 #'   nrow = 2), cormat23 = matrix(c(1, 0.5, 0.5, 1), byrow = TRUE, nrow = 2),
 #'   cormat123 = matrix(c(1, sqrt(0.5), sqrt(0.5), sqrt(0.5), 1, 0.5,
-#'   sqrt(0.5), 0.5, 1), byrow=TRUE, nrow = 3), niter = 5, rseed = 047477, abseps = 1e-05)
+#'   sqrt(0.5), 0.5, 1), byrow=TRUE, nrow = 3), niter = 1, abseps = 1e-03)
 #'
 #' # $poweroverA
 #' # [1] 0.5861992
@@ -85,8 +82,7 @@
 #'
 #' # $power13.13.13
 #' # [1] 0.9302078
-#' }
-#'
+
 power13_13_13 <- function(n, hrA, hrB, hrAB, avgprob, probA_C, probAB_C,
                           crit13, dig,
                           cormat12 = matrix(c(1, sqrt(0.5),
@@ -96,7 +92,7 @@ power13_13_13 <- function(n, hrA, hrB, hrAB, avgprob, probA_C, probAB_C,
                                 cormat123 = matrix(c(1, sqrt(0.5), sqrt(0.5),
                                               sqrt(0.5), 1, 0.5,
                                               sqrt(0.5), 0.5, 1), byrow=T, nrow = 3),
-                                niter = 5, rseed = 047477, abseps = 1e-05)
+                                niter = 5, abseps = 1e-03)
 {
   alpha <- 2 * pnorm(crit13)
   muoverA <- (log(hrA) + 0.5 * log(hrAB/(hrA*hrB)))* sqrt((n/4) * avgprob)
@@ -115,7 +111,10 @@ power13_13_13 <- function(n, hrA, hrB, hrAB, avgprob, probA_C, probAB_C,
   # 123. The overall A, simple A, and simple AB effects are all detected.
   # Use pmvnorm to compute the power to detect overall A and simple AB effects.
   # Do this niter times to average out the randomness in pmvnorm.
-  set.seed(rseed)
+  # Previous versions of crit2x2 set a random seed here
+  # to be used in conjunction with the pmvnorm call.  CRAN
+  # suggested that this be omitted.
+  # set.seed(rseed)
   powermat <- matrix(rep(0, 4 * niter), nrow = niter)
   for(i in 1:niter){
     powermat[i, 1] <- pmvnorm(lower=-Inf, upper=c(crit13, crit13), mean=c(muoverA, muA),

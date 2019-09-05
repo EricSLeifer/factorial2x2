@@ -12,6 +12,8 @@
 #' @param corAa	correlation between the overall A and simple A log hazard ratio estimates
 #' @param corAab correlation between the overall A and simple AB log hazard ratio estimates
 #' @param coraab	correalation between the simple A and simple AB log hazard ratio estimates
+#' @param  niter  number of times we call \code{pmvnorm} to average out its randomness
+#' @param  abseps  \code{abseps} setting in the \code{pmvnorm} call
 #' @return \item{powerA}{power to detect the overall A effect at the two-sided \code{alpha} level}
 #' @return \item{powerB}{power to detect the overall B effect at the two-sided \code{alpha} level}
 #' @return \item{power23.13 }{power to detect the overall A or simple AB effects using the 2/3-1/3 procedure}
@@ -28,8 +30,6 @@
 #' @references Slud, E.V. Analysis of factorial survival experiments. Biometrics. 1994; 50: 25-38.
 #' @export fac2x2design
 #' @examples
-#' \dontrun{
-#' # Not run by CRAN.  Requires less than 10 seconds on a personal computer.
 #' # Corresponds to scenario 5 in Table 2 from Leifer, Troendle, et al. (2019).
 #' n <- 4600
 #' rateC <- 0.0445
@@ -39,7 +39,7 @@
 #' mincens <- 4.0
 #' maxcens <- 8.4
 #'
-#' fac2x2design(n, rateC, hrA, hrB, hrAB, mincens, maxcens, dig = 2, alpha = 0.05)
+#' fac2x2design(n, rateC, hrA, hrB, hrAB, mincens, maxcens, dig = 2, alpha = 0.05, niter = 1)
 #' # $powerA
 #' # [1] 0.7182932
 #'
@@ -61,9 +61,9 @@
 #' # $evtprob
 #' # probC     probA     probB    probAB
 #' # 0.2446365 0.2012540 0.2012540 0.1831806
-#' }
 #'
 fac2x2design <- function(n, rateC, hrA, hrB, hrAB, mincens, maxcens, dig = 2, alpha = 0.05,
+                         niter = 5, abseps = 1e-03,
                          corAa = 1/sqrt(2), corAab = 1/sqrt(2), coraab = 1/2){
   evtprob <- eventProb(rateC, hrA, hrB, hrAB, mincens, maxcens)
   avgprob <- evtprob$avgprob
@@ -84,20 +84,20 @@ fac2x2design <- function(n, rateC, hrA, hrB, hrAB, mincens, maxcens, dig = 2, al
 
   power23.13 <- power23_13(n, hrA, hrB, hrAB, avgprob, probAB_C,
     crit23A, crit23ab, dig, cormat =
-    matrix(c(1, sqrt(0.5), sqrt(0.5), 1), byrow = T,
-    nrow = 2), niter = 5, rseed = 047477, abseps = 1e-05)$power23.13
+    matrix(c(1, sqrt(0.5), sqrt(0.5), 1), byrow = TRUE,
+    nrow = 2), niter, abseps)$power23.13
 
   power13.13.13 <- power13_13_13(n, hrA, hrB, hrAB, avgprob, probA_C,
     probAB_C, crit13, dig, cormat12 = matrix(c(1, sqrt(0.5),
-    sqrt(0.5), 1), byrow = T, nrow = 2), cormat23 = matrix(c(1, 0.5, 0.5, 1),
-    byrow = T, nrow = 2),
+    sqrt(0.5), 1), byrow = TRUE, nrow = 2), cormat23 = matrix(c(1, 0.5, 0.5, 1),
+    byrow = TRUE, nrow = 2),
     cormat123 = matrix(c(1, sqrt(0.5), sqrt(0.5), sqrt(0.5), 1, 0.5,
-    sqrt(0.5), 0.5, 1), byrow=T, nrow = 3), niter = 5, rseed = 047477,
-    abseps = 1e-05)$power13.13.13
+    sqrt(0.5), 0.5, 1), byrow=TRUE, nrow = 3), niter,
+    abseps)$power13.13.13
 
   power12.12 <- power12_12(n, hrA, hrAB, probA_C, probAB_C,
-    crit12, cormat = matrix(c(1,0.5,0.5,1), byrow =T, nrow =2),
-    niter = 5, rseed = 047477, abseps = 1e-05)$power12.12
+    crit12, cormat = matrix(c(1,0.5,0.5,1), byrow =TRUE, nrow =2),
+    niter, abseps)$power12.12
 
   list(powerA = powerA, powerB = powerB, power23.13 = power23.13,
        power13.13.13 = power13.13.13,
