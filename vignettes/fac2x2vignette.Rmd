@@ -35,15 +35,14 @@ We consider three multiple testing procedures:
 for the three multiple testing procedures.
 `fac2x2design` calculates the power for the overall and simple tests as well as the three multiple testing procedures.
 
-
-
 ## Examples using the *fac2x2analyze* function 
 We present two examples using `fac2x2analyze`.  
 
 ### Example 1
 This example uses the simulated data in `simdata` which 
-is a 4600-by-9 matrix which is loaded with the `factorial2x2` package.  `simdata` corresponds to a simulated 2x2 factorial clinical trial of 4600 subjects. Subjects are simultaneously randomized to receive either treatment *A* or placebo as well as either treatment *B* or placebo.
-We are interested in testing and estimating the overall *A* effect, the simple *A* effect, and the simple *AB* effect.  We are also interested in the three multiple testing procedures described in the previous section.  Below is the R code and output.  Based on the below results, the 2/3-1/3 procedure detects the simple *AB* effect, the 1/3-1/3-1/3 procedure detects the simple *A* and *AB* effects, and the 1/2-1/2 procedure detects the simple *A* and simple *AB* effects.
+is a 4600-by-9 matrix which is loaded with the `factorial2x2` package.  `simdata` corresponds to a simulated 2x2 factorial clinical trial of 4600 subjects. 
+Subjects are simultaneously randomized to receive either treatment *A* or placebo as well as either treatment *B* or placebo.
+We are interested in testing and estimating the overall *A* effect, the simple *A* effect, and the simple *AB* effect.  We are also interested in the three multiple testing procedures described in the previous section.  Below is the R code and output.  Based on the below results, the 2/3-1/3 procedure detects the simple *AB* effect, the 1/3-1/3-1/3 procedure detects the simple *A* and *AB* effects, and the 1/2-1/2 procedure detects the simple *A* and simple *AB* effects. Note that the examples which are provided in the `factorial2x2` manual use the 100-by-9 submatrix `simdat` of `simdata` for very rapid computation. `simdata` is also loaded with the `factorial2x2` package.
 
 ```{r, eval = F, echo = F, results = "hide"}
 # When I use knitr to run this whole file, I need to 
@@ -213,7 +212,8 @@ $loghrab
 [1] -0.09132675             # log hazard ratio estimate for the simple effect of naltrexone and CBI
 
 $seab
-[1] 0.09553005              # std error of the log HR estimate for the simple effect of naltrexone and CBI
+[1] 0.09553005              # std error of the log HR estimate for the simple effect of naltrexone 
+                            # and CBI
 
 $Zstatab
 [1] -0.9560003              # Z-statistic for the simple effect of naltrexone and CBI
@@ -291,7 +291,6 @@ Here we use `fac2x2design` to compute the power for Scenario 5 in Table 2 from L
   probC     probA     probB    probAB 
   0.2446365 0.2012540 0.2012540 0.1831806
 ```
-
 
 ## References
 Leifer, E.S., Troendle, J.F., Kolecki, A., Follmann, D. Joint testing of overall and simple effect for the two-by-two factorial design. 2019. Submitted.

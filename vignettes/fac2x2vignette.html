@@ -12,7 +12,7 @@
 
 <meta name="author" content="Eric Leifer and James Troendle" />
 
-<meta name="date" content="2019-05-29" />
+<meta name="date" content="2019-09-03" />
 
 <title>factorial2x2: Design and Analysis of a 2x2 Factorial Trial with a Time-to-Event Endpoint</title>
 
@@ -303,7 +303,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">factorial2x2: Design and Analysis of a 2x2 Factorial Trial with a Time-to-Event Endpoint</h1>
 <h4 class="author">Eric Leifer and James Troendle</h4>
-<h4 class="date">2019-05-29</h4>
+<h4 class="date">2019-09-03</h4>
 
 
 
@@ -323,7 +323,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>We present two examples using <code>fac2x2analyze</code>.</p>
 <div id="example-1" class="section level3">
 <h3>Example 1</h3>
-<p>This example uses the simulated data in <code>simdata</code> which is a 4600-by-9 matrix which is loaded with the <code>factorial2x2</code> package. <code>simdata</code> corresponds to a simulated 2x2 factorial clinical trial of 4600 subjects. Subjects are simultaneously randomized to receive either treatment <em>A</em> or placebo as well as either treatment <em>B</em> or placebo. We are interested in testing and estimating the overall <em>A</em> effect, the simple <em>A</em> effect, and the simple <em>AB</em> effect. We are also interested in the three multiple testing procedures described in the previous section. Below is the R code and output. Based on the below results, the 2/3-1/3 procedure detects the simple <em>AB</em> effect, the 1/3-1/3-1/3 procedure detects the simple <em>A</em> and <em>AB</em> effects, and the 1/2-1/2 procedure detects the simple <em>A</em> and simple <em>AB</em> effects.</p>
+<p>This example uses the simulated data in <code>simdata</code> which is a 4600-by-9 matrix which is loaded with the <code>factorial2x2</code> package. <code>simdata</code> corresponds to a simulated 2x2 factorial clinical trial of 4600 subjects. Subjects are simultaneously randomized to receive either treatment <em>A</em> or placebo as well as either treatment <em>B</em> or placebo. We are interested in testing and estimating the overall <em>A</em> effect, the simple <em>A</em> effect, and the simple <em>AB</em> effect. We are also interested in the three multiple testing procedures described in the previous section. Below is the R code and output. Based on the below results, the 2/3-1/3 procedure detects the simple <em>AB</em> effect, the 1/3-1/3-1/3 procedure detects the simple <em>A</em> and <em>AB</em> effects, and the 1/2-1/2 procedure detects the simple <em>A</em> and simple <em>AB</em> effects. Note that the examples which are provided in the <code>factorial2x2</code> manual use the 100-by-9 submatrix <code>simdat</code> of <code>simdata</code> for very rapid computation. <code>simdata</code> is also loaded with the <code>factorial2x2</code> package.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">time &lt;-<span class="st"> </span>simdata[, <span class="st">&#39;time&#39;</span>]    <span class="co"># follow-up time</span></a>
 <a class="sourceLine" id="cb1-2" title="2">event &lt;-<span class="st"> </span>simdata[, <span class="st">&#39;event&#39;</span>]  <span class="co"># event indicator</span></a>
 <a class="sourceLine" id="cb1-3" title="3">indA &lt;-<span class="st"> </span>simdata[, <span class="st">&#39;indA&#39;</span>]    <span class="co"># treatment A indicator</span></a>
@@ -472,47 +472,48 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb2-75" title="75">[<span class="dv">1</span>] <span class="fl">-0.09132675</span>             <span class="co"># log hazard ratio estimate for the simple effect of naltrexone and CBI</span></a>
 <a class="sourceLine" id="cb2-76" title="76"></a>
 <a class="sourceLine" id="cb2-77" title="77"><span class="op">$</span>seab</a>
-<a class="sourceLine" id="cb2-78" title="78">[<span class="dv">1</span>] <span class="fl">0.09553005</span>              <span class="co"># std error of the log HR estimate for the simple effect of naltrexone and CBI</span></a>
-<a class="sourceLine" id="cb2-79" title="79"></a>
-<a class="sourceLine" id="cb2-80" title="80"><span class="op">$</span>Zstatab</a>
-<a class="sourceLine" id="cb2-81" title="81">[<span class="dv">1</span>] <span class="fl">-0.9560003</span>              <span class="co"># Z-statistic for the simple effect of naltrexone and CBI</span></a>
-<a class="sourceLine" id="cb2-82" title="82"></a>
-<a class="sourceLine" id="cb2-83" title="83"><span class="op">$</span>pvalab</a>
-<a class="sourceLine" id="cb2-84" title="84">[<span class="dv">1</span>] <span class="fl">0.3390721</span>               <span class="co"># p-value for the simple effect of naltrexone and CBI</span></a>
-<a class="sourceLine" id="cb2-85" title="85"></a>
-<a class="sourceLine" id="cb2-86" title="86"><span class="op">$</span>hrab</a>
-<a class="sourceLine" id="cb2-87" title="87">[<span class="dv">1</span>] <span class="fl">0.9127194</span>               <span class="co"># hazard ratio estimate for the simple effect of naltrexone and CBI</span></a>
-<a class="sourceLine" id="cb2-88" title="88"></a>
-<a class="sourceLine" id="cb2-89" title="89"><span class="op">$</span>ciab</a>
-<a class="sourceLine" id="cb2-90" title="90">[<span class="dv">1</span>] <span class="fl">0.7568686</span> <span class="fl">1.1006624</span>     <span class="co"># corresponding 95% confidence interval</span></a>
-<a class="sourceLine" id="cb2-91" title="91"></a>
-<a class="sourceLine" id="cb2-92" title="92"><span class="op">$</span>crit13</a>
-<a class="sourceLine" id="cb2-93" title="93">[<span class="dv">1</span>] <span class="fl">-2.5811</span>                 <span class="co"># critical value for the three tests in Table 4; </span></a>
-<a class="sourceLine" id="cb2-94" title="94">                            <span class="co"># slightly larger in absolute terms than the</span></a>
-<a class="sourceLine" id="cb2-95" title="95">                            <span class="co"># critical value -2.573 reported on p.1083 of Lin, Gong, et al.</span></a>
-<a class="sourceLine" id="cb2-96" title="96"><span class="op">$</span>sig13</a>
-<a class="sourceLine" id="cb2-97" title="97">[<span class="dv">1</span>] <span class="fl">0.009848605</span></a>
-<a class="sourceLine" id="cb2-98" title="98"></a>
-<a class="sourceLine" id="cb2-99" title="99"><span class="op">$</span>result13</a>
-<a class="sourceLine" id="cb2-100" title="100">[<span class="dv">1</span>] <span class="st">&quot;accept overall A&quot;</span> <span class="st">&quot;accept simple A&quot;</span>  <span class="st">&quot;accept simple AB&quot;</span></a>
-<a class="sourceLine" id="cb2-101" title="101"></a>
-<a class="sourceLine" id="cb2-102" title="102"><span class="op">$</span>crit12</a>
-<a class="sourceLine" id="cb2-103" title="103">[<span class="dv">1</span>] <span class="fl">-2.2154</span></a>
-<a class="sourceLine" id="cb2-104" title="104"></a>
-<a class="sourceLine" id="cb2-105" title="105"><span class="op">$</span>sig12</a>
-<a class="sourceLine" id="cb2-106" title="106">[<span class="dv">1</span>] <span class="fl">0.02673262</span></a>
-<a class="sourceLine" id="cb2-107" title="107"></a>
-<a class="sourceLine" id="cb2-108" title="108"><span class="op">$</span>result12</a>
-<a class="sourceLine" id="cb2-109" title="109">[<span class="dv">1</span>] <span class="st">&quot;reject simple A&quot;</span>  <span class="st">&quot;accept simple AB&quot;</span></a>
-<a class="sourceLine" id="cb2-110" title="110"></a>
-<a class="sourceLine" id="cb2-111" title="111"><span class="op">$</span>corAa</a>
-<a class="sourceLine" id="cb2-112" title="112">[<span class="dv">1</span>] <span class="fl">0.6727651</span></a>
-<a class="sourceLine" id="cb2-113" title="113"></a>
-<a class="sourceLine" id="cb2-114" title="114"><span class="op">$</span>corAab</a>
-<a class="sourceLine" id="cb2-115" title="115">[<span class="dv">1</span>] <span class="fl">0.7078624</span></a>
-<a class="sourceLine" id="cb2-116" title="116"></a>
-<a class="sourceLine" id="cb2-117" title="117"><span class="op">$</span>coraab</a>
-<a class="sourceLine" id="cb2-118" title="118">[<span class="dv">1</span>] <span class="fl">0.4691156</span>  </a></code></pre></div>
+<a class="sourceLine" id="cb2-78" title="78">[<span class="dv">1</span>] <span class="fl">0.09553005</span>              <span class="co"># std error of the log HR estimate for the simple effect of naltrexone </span></a>
+<a class="sourceLine" id="cb2-79" title="79">                            <span class="co"># and CBI</span></a>
+<a class="sourceLine" id="cb2-80" title="80"></a>
+<a class="sourceLine" id="cb2-81" title="81"><span class="op">$</span>Zstatab</a>
+<a class="sourceLine" id="cb2-82" title="82">[<span class="dv">1</span>] <span class="fl">-0.9560003</span>              <span class="co"># Z-statistic for the simple effect of naltrexone and CBI</span></a>
+<a class="sourceLine" id="cb2-83" title="83"></a>
+<a class="sourceLine" id="cb2-84" title="84"><span class="op">$</span>pvalab</a>
+<a class="sourceLine" id="cb2-85" title="85">[<span class="dv">1</span>] <span class="fl">0.3390721</span>               <span class="co"># p-value for the simple effect of naltrexone and CBI</span></a>
+<a class="sourceLine" id="cb2-86" title="86"></a>
+<a class="sourceLine" id="cb2-87" title="87"><span class="op">$</span>hrab</a>
+<a class="sourceLine" id="cb2-88" title="88">[<span class="dv">1</span>] <span class="fl">0.9127194</span>               <span class="co"># hazard ratio estimate for the simple effect of naltrexone and CBI</span></a>
+<a class="sourceLine" id="cb2-89" title="89"></a>
+<a class="sourceLine" id="cb2-90" title="90"><span class="op">$</span>ciab</a>
+<a class="sourceLine" id="cb2-91" title="91">[<span class="dv">1</span>] <span class="fl">0.7568686</span> <span class="fl">1.1006624</span>     <span class="co"># corresponding 95% confidence interval</span></a>
+<a class="sourceLine" id="cb2-92" title="92"></a>
+<a class="sourceLine" id="cb2-93" title="93"><span class="op">$</span>crit13</a>
+<a class="sourceLine" id="cb2-94" title="94">[<span class="dv">1</span>] <span class="fl">-2.5811</span>                 <span class="co"># critical value for the three tests in Table 4; </span></a>
+<a class="sourceLine" id="cb2-95" title="95">                            <span class="co"># slightly larger in absolute terms than the</span></a>
+<a class="sourceLine" id="cb2-96" title="96">                            <span class="co"># critical value -2.573 reported on p.1083 of Lin, Gong, et al.</span></a>
+<a class="sourceLine" id="cb2-97" title="97"><span class="op">$</span>sig13</a>
+<a class="sourceLine" id="cb2-98" title="98">[<span class="dv">1</span>] <span class="fl">0.009848605</span></a>
+<a class="sourceLine" id="cb2-99" title="99"></a>
+<a class="sourceLine" id="cb2-100" title="100"><span class="op">$</span>result13</a>
+<a class="sourceLine" id="cb2-101" title="101">[<span class="dv">1</span>] <span class="st">&quot;accept overall A&quot;</span> <span class="st">&quot;accept simple A&quot;</span>  <span class="st">&quot;accept simple AB&quot;</span></a>
+<a class="sourceLine" id="cb2-102" title="102"></a>
+<a class="sourceLine" id="cb2-103" title="103"><span class="op">$</span>crit12</a>
+<a class="sourceLine" id="cb2-104" title="104">[<span class="dv">1</span>] <span class="fl">-2.2154</span></a>
+<a class="sourceLine" id="cb2-105" title="105"></a>
+<a class="sourceLine" id="cb2-106" title="106"><span class="op">$</span>sig12</a>
+<a class="sourceLine" id="cb2-107" title="107">[<span class="dv">1</span>] <span class="fl">0.02673262</span></a>
+<a class="sourceLine" id="cb2-108" title="108"></a>
+<a class="sourceLine" id="cb2-109" title="109"><span class="op">$</span>result12</a>
+<a class="sourceLine" id="cb2-110" title="110">[<span class="dv">1</span>] <span class="st">&quot;reject simple A&quot;</span>  <span class="st">&quot;accept simple AB&quot;</span></a>
+<a class="sourceLine" id="cb2-111" title="111"></a>
+<a class="sourceLine" id="cb2-112" title="112"><span class="op">$</span>corAa</a>
+<a class="sourceLine" id="cb2-113" title="113">[<span class="dv">1</span>] <span class="fl">0.6727651</span></a>
+<a class="sourceLine" id="cb2-114" title="114"></a>
+<a class="sourceLine" id="cb2-115" title="115"><span class="op">$</span>corAab</a>
+<a class="sourceLine" id="cb2-116" title="116">[<span class="dv">1</span>] <span class="fl">0.7078624</span></a>
+<a class="sourceLine" id="cb2-117" title="117"></a>
+<a class="sourceLine" id="cb2-118" title="118"><span class="op">$</span>coraab</a>
+<a class="sourceLine" id="cb2-119" title="119">[<span class="dv">1</span>] <span class="fl">0.4691156</span>  </a></code></pre></div>
 </div>
 </div>
 <div id="example-using-the-fac2x2design-function" class="section level2">
