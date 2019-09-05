@@ -7,7 +7,11 @@ Maintainer: Eric Leifer <Eric.Leifer@gmail.com>
 Description: 
     Used for the design and analysis of a 2x2 factorial trial for
     a time-to-event endpoint.  Performs power calculations and significance
-    testing.
+    testing.  Important reference papers include
+    Slud EV. (1994) <https://www.ncbi.nlm.nih.gov/pubmed/8086609>
+    Lin DY, Gong J, Gallo P, Bunn PH, Couper D. (2016) <DOI:10.1111/biom.12507>
+    Leifer ES, Troendle JF, Kolecki A, Follmann DA. (2019)
+    <https://github.com/EricSLeifer/factorial2x2/blob/master/Leifer%20et%20al%20Factorial.pdf>.
 Depends: R (>= 3.6.0), survival, stats, mvtnorm
 Imports: 
 License: GPL-2
